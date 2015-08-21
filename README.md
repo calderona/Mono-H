@@ -7,3 +7,5 @@ cmsDriver.py Hadronizer_MgmMatchTune4C_13TeV_madgraph_pythia8_Tauola_cff.py --fi
 
 ## Step 2
 
+ step2 --filein file:step1.root --fileout file:step2.root --mc --eventcontent AODSIM --customise SLHCUpgradeSimulations/Configuration/postLS1Customs.customisePostLS1,Configuration/DataProcessing/Utils.addMonitoring --datatier AODSIM --conditions PHYS14_25_V1 --step RAW2DIGI,L1Reco,RECO --magField 38T_PostLS1 --python_filename ste2_new.py -n 10
+
