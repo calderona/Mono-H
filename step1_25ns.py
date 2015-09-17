@@ -2,7 +2,7 @@
 # using: 
 # Revision: 1.19 
 # Source: /local/reps/CMSSW/CMSSW/Configuration/Applications/python/ConfigBuilder.py,v 
-# with command line options: Hadronizer_MgmMatchTune4C_13TeV_madgraph_pythia8_Tauola_cff.py --filein file:Higgs_hzpzp_100GeV.lhe --mc --pileup_input dbs:/MinBias_TuneA2MB_13TeV-pythia8/Fall13-POSTLS162_V1-v1/GEN-SIM --eventcontent RAWSIM --pileup 2015_25ns_Startup_PoissonOOTPU --datatier GEN-SIM-RAW --customise SLHCUpgradeSimulations/Configuration/postLS1Customs.customisePostLS1,Configuration/DataProcessing/Utils.addMonitoring --conditions auto:run2_mc --beamspot NominalCollision2015 --magField 38T_PostLS1 --step GEN,SIM,DIGI,L1,DIGI2RAW,HLT:GRun --no_exec -n 10 --python_filename step1_25ns.py --fileout file:step1.root
+# with command line options: pythia8_hadronizer_nomatching_HWWllnunu_cff.py --filein file:Higgs_hzpzp_10GeV.lhe --mc --pileup_input dbs:/MinBias_TuneA2MB_13TeV-pythia8/Fall13-POSTLS162_V1-v1/GEN-SIM --eventcontent RAWSIM --pileup 2015_25ns_HiLum_PoissonOOTPU --datatier GEN-SIM-RAW --customise SLHCUpgradeSimulations/Configuration/postLS1Customs.customisePostLS1,Configuration/DataProcessing/Utils.addMonitoring --conditions auto:run2_mc --beamspot NominalCollision2015 --magField 38T_PostLS1 --step GEN,SIM,DIGI,L1,DIGI2RAW,HLT:GRun --no_exec -n 10 --python_filename step1_25ns.py --fileout file:step1.root
 import FWCore.ParameterSet.Config as cms
 
 process = cms.Process('HLT')
@@ -12,7 +12,7 @@ process.load('Configuration.StandardSequences.Services_cff')
 process.load('SimGeneral.HepPDTESSource.pythiapdt_cfi')
 process.load('FWCore.MessageService.MessageLogger_cfi')
 process.load('Configuration.EventContent.EventContent_cff')
-process.load('SimGeneral.MixingModule.mix_2015_25ns_Startup_PoissonOOTPU_cfi')
+process.load('SimGeneral.MixingModule.mix_2015_25ns_HiLum_PoissonOOTPU_cfi')
 process.load('Configuration.StandardSequences.GeometryRecoDB_cff')
 process.load('Configuration.Geometry.GeometrySimDB_cff')
 process.load('Configuration.StandardSequences.MagneticField_38T_PostLS1_cff')
@@ -34,7 +34,7 @@ process.maxEvents = cms.untracked.PSet(
 # Input source
 process.source = cms.Source("LHESource",
     dropDescendantsOfDroppedBranches = cms.untracked.bool(False),
-    fileNames = cms.untracked.vstring('file:Higgs_hzpzp_10GeV.lhe'),
+    fileNames = cms.untracked.vstring('file:Higgs_hzpzp_500GeV.lhe'),
     inputCommands = cms.untracked.vstring('keep *', 
         'drop *_genParticles_*_*', 
         'drop *_genParticlesForJets_*_*', 
@@ -60,7 +60,7 @@ process.options = cms.untracked.PSet(
 
 # Production Info
 process.configurationMetadata = cms.untracked.PSet(
-    annotation = cms.untracked.string('Hadronizer_MgmMatchTune4C_13TeV_madgraph_pythia8_Tauola_cff.py nevts:10'),
+    annotation = cms.untracked.string('pythia8_hadronizer_nomatching_HWWllnunu_cff.py nevts:10'),
     name = cms.untracked.string('Applications'),
     version = cms.untracked.string('$Revision: 1.19 $')
 )
@@ -89,51 +89,34 @@ process.genstepfilter.triggerConditions=cms.vstring("generation_step")
 from Configuration.AlCa.GlobalTag_condDBv2 import GlobalTag
 process.GlobalTag = GlobalTag(process.GlobalTag, 'auto:run2_mc', '')
 
+
+from Configuration.Generator.Pythia8CommonSettings_cfi import *
+from Configuration.Generator.Pythia8CUEP8M1Settings_cfi import *
+
 process.generator = cms.EDFilter("Pythia8HadronizerFilter",
-    ExternalDecays = cms.PSet(
-        Tauola = cms.untracked.PSet(
-            InputCards = cms.PSet(
-                mdtau = cms.int32(0),
-                pjak1 = cms.int32(0),
-                pjak2 = cms.int32(0)
+                         maxEventsToPrint = cms.untracked.int32(1),
+                         pythiaPylistVerbosity = cms.untracked.int32(1),
+                         filterEfficiency = cms.untracked.double(1.0),
+                         pythiaHepMCVerbosity = cms.untracked.bool(False),
+                         comEnergy = cms.double(13000.),
+                         PythiaParameters = cms.PSet(
+        pythia8CommonSettingsBlock,
+        pythia8CUEP8M1SettingsBlock,
+        processParameters = cms.vstring(
+            '25:m0 = 125.0', 
+            '25:onMode = off',
+            '25:onIfMatch = 24 -24',           # turn ON H->WW
+            '24:mMin = 0.05',                  #  
+            '24:onMode = off',                 # turn OFF all W decays
+            '24:onIfAny = 11 13 15 12 14 16'   # turn ON W->lnu
+
             ),
-            UseTauolaPolarization = cms.bool(True)
-        ),
-        parameterSets = cms.vstring('Tauola')
-    ),
-    PythiaParameters = cms.PSet(
-        parameterSets = cms.vstring('processParameters'),
-        processParameters = cms.vstring('Main:timesAllowErrors = 10000', 
-            'ParticleDecays:limitTau0 = on', 
-            'ParticleDecays:tauMax = 10', 
-            'Tune:ee 3', 
-            'Tune:pp 5',
-	    '25:onIfAll = 24 24',
-            '23:onMode = off',
-            '23:onIfAny = 11 -11 13 -13 15 -15',
-            'SLHA:keepSM = on',
-            'SLHA:minMassSM = 1000.',
-            'SLHA:useDecayTable = off')
-    ),
-    UseExternalGenerators = cms.untracked.bool(True),
-    comEnergy = cms.double(13000.0),
-    filterEfficiency = cms.untracked.double(1.0),
-    jetMatching = cms.untracked.PSet(
-	MEMAIN_nqmatch = cms.int32(5),
-        MEMAIN_showerkt = cms.double(0),
-        MEMAIN_minjets = cms.int32(0),
-        MEMAIN_qcut = cms.double(30),
-        MEMAIN_excres = cms.string(''),
-        MEMAIN_etaclmax = cms.double(5.0),
-        outTree_flag = cms.int32(0),
-        scheme = cms.string('Madgraph'),
-        MEMAIN_maxjets = cms.int32(4),
-        mode = cms.string('auto')
-    ),
-    maxEventsToPrint = cms.untracked.int32(1),
-    pythiaHepMCVerbosity = cms.untracked.bool(False),
-    pythiaPylistVerbosity = cms.untracked.int32(1)
-)
+        parameterSets = cms.vstring('pythia8CommonSettings',
+                                    'pythia8CUEP8M1Settings',
+                                    'processParameters'
+                                    )
+        )
+                         )
 
 
 # Path and EndPath definitions
@@ -150,9 +133,11 @@ process.RAWSIMoutput_step = cms.EndPath(process.RAWSIMoutput)
 process.schedule = cms.Schedule(process.generation_step,process.genfiltersummary_step,process.simulation_step,process.digitisation_step,process.L1simulation_step,process.digi2raw_step)
 process.schedule.extend(process.HLTSchedule)
 process.schedule.extend([process.endjob_step,process.RAWSIMoutput_step])
+
 # filter all path with the production filter sequence
 for path in process.paths:
 	getattr(process,path)._seq = process.generator * getattr(process,path)._seq 
+
 
 # customisation of the process.
 

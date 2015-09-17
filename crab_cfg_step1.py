@@ -1,13 +1,13 @@
 from CRABClient.UserUtilities import config
 config = config()
 
-config.General.requestName = 'Higgs_hzpzp_nohdecay_ww_10GeV_13TeV'
+config.General.requestName = 'Higgs_hzpzp_nohdecay_ww_500GeV_13TeV'
 config.General.workArea = 'crab_projects'
 
 config.JobType.pluginName = 'PrivateMC'
 config.JobType.generator = 'lhe'
 config.JobType.psetName = 'step1_25ns.py'
-config.JobType.inputFiles = ['Higgs_hzpzp_10GeV.lhe']
+config.JobType.inputFiles = ['Higgs_hzpzp_500GeV.lhe']
 
 config.Data.primaryDataset = 'MinBias'
 config.Data.splitting = 'EventBased'
