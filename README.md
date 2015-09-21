@@ -7,8 +7,7 @@ cmsDriver.py pythia8_hadronizer_nomatching_HWWllnunu_cff.py --filein file:Higgs_
 
 ## Step 2 (DIGI-RECO)
 
-cmsDriver.py  step2 --filein file:step1.root --fileout file:step2.root --mc --eventcontent AODSIM --customise SLHCUpgradeSimulations/Configuration/postLS1Customs.customisePostLS1,Configuration/DataProcessing/Utils.addMonitoring --datatier AODSIM --conditions PHYS14_25_V1 --step RAW2DIGI,L1Reco,RECO --magField 38T_PostLS1 --python_filename ste2_new.py -n 10
-
+cmsDriver.py  step2 --filein file:step1.root --fileout file:step2.root --mc --eventcontent AODSIM --datatier AODSIM --conditions auto:run2_mc --step RAW2DIGI,L1Reco,RECO --magField 38T_PostLS1 --python_filename step2_25ns.py -n 10
 
 
 ## Step 3 (MINIAOD)
