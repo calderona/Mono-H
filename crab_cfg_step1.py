@@ -1,25 +1,27 @@
 from CRABClient.UserUtilities import config
 config = config()
 
-config.General.requestName = 'Higgs_hzpzp_nohdecay_ww_500GeV_13TeV'
+config.General.requestName = 'ZprimeToA0hToA0chichihWWTollnunu_2HDM_MZp-600_MA0-300_Mchi1-1_ctau-1_13TeV-madgraph_RECO'
 config.General.workArea = 'crab_projects'
 
-config.JobType.pluginName = 'PrivateMC'
-config.JobType.generator = 'lhe'
-config.JobType.psetName = 'step1_25ns.py'
-config.JobType.inputFiles = ['Higgs_hzpzp_500GeV.lhe']
-
-config.Data.primaryDataset = 'MinBias'
-config.Data.splitting = 'EventBased'
-config.Data.unitsPerJob = 100
-NJOBS = 100
+config.JobType.pluginName = 'Analysis'
+#config.JobType.generator = 'lhe'
+config.JobType.psetName = 'EXO-RunIISummer16DR80Premix-01695_step1_cfg.py'
+#config.JobType.numCores = 4
+config.Data.inputDBS = 'phys03'
+#config.Data.ignoreLocality = True
+#config.Site.whitelist = ["T2_CH*"]
+config.Data.splitting = 'FileBased'
+config.Data.unitsPerJob = 10
+NJOBS = 10
 config.Data.totalUnits = config.Data.unitsPerJob * NJOBS
-config.Data.outLFNDirBase = '/store/group/phys_higgs/cmshww/calderon/' 
-#config.Data.outLFNDirBase = '/store/caf/user/calderon/' #'/store/user/dburns/' # or '/store/group/<subdir>'
+config.Data.outLFNDirBase = '/store/group/phys_higgs/cmshww/calderon/' #'/store/user/dburns/' # or '/store/group/<subdir>'
 config.Data.publication = False
-#config.Data.publishDataName = 'Higgs_hzpzp_nohdecay_ww_1000GeV_13TeV_v2'
+#config.Data.primaryDataset = 'Higgs_Zp2HDM_ww_MZP2500_MA0300_13TeV/15112015/MINIAODSIM'
+#config.Data.publishDataName = 'Higgs_hzpzp_nohdecay_ww_1000GeV_13TeV_RECO_v1'
+config.Data.userInputFiles = open('EXO-RunIISummer16DR80Premix-01695_step1_GENSIM.txt').readlines()
 
-#config.Site.blacklist = ["T2_US_UCSD"]
+config.section_('User')
 config.section_('Site')
-config.Site.storageSite = 'T2_CH_CERN'
 
+config.Site.storageSite = 'T2_CH_CERN'

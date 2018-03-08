@@ -1,7 +1,7 @@
 from CRABClient.UserUtilities import config
 config = config()
 
-config.General.requestName = 'Higgs_hzpzp_nohdecay_ww_1000GeV_13TeV_AODSIM'
+config.General.requestName = 'Higgs_Zp2HDM_ww_MZP2500_MA0300_13TeV_AODSIM'
 config.General.workArea = 'crab_projects'
 
 config.JobType.pluginName = 'Analysis'
@@ -16,7 +16,8 @@ config.Data.totalUnits = config.Data.unitsPerJob * NJOBS
 config.Data.outLFNDirBase =  '/store/group/phys_higgs/cmshww/calderon/' #'/store/user/dburns/' # or '/store/group/<subdir>'
 #config.Data.publication = True
 #config.Data.publishDataName = 'Higgs_hzpzp_nohdecay_ww_1000GeV_13TeV_AODSIM_v1'
-config.Data.userInputFiles =  open('Higgs_hzpzp_nohdecay_ww_100GeV_13TeV_RECO.txt').readlines()
+#config.Data.primaryDataset = 'CRAB_UserFiles/15112015/MINIAODSIM' 
+config.Data.userInputFiles =  open('Higgs_Zp2HDM_ww_MZP2500_MA0300_13TeV_RECO.txt').readlines()
 config.section_('User')
 config.section_('Site')
 
