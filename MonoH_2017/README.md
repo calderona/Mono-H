@@ -1,13 +1,13 @@
-Madgraph OLD CARDS 
+**Madgraph OLD CARDS**
 
 
 https://github.com/cms-sw/genproductions/tree/4e6dda7ecc882f106135d5a33c602f53bc4843a9/bin/MadGraph5_aMCatNLO/cards/production/13TeV/monoHiggs/Zp2HDM/Zprime_A0h_A0chichi
 
-2) Production of gridpacks 
+**2) Production of gridpacks** 
 
 https://twiki.cern.ch/twiki/bin/view/CMS/QuickGuideMadGraph5aMCatNLO
 
-For 2017 MC production need to update the PDF to NNPDF3.1 NNLO 
+ For 2017 MC production need to update the PDF to NNPDF3.1 NNLO 
 
 On the cards just change the pdf to:
  lhapdf = pdlabel ! PDF set
@@ -29,7 +29,8 @@ Run the code as:
 
 Examples: 
 ./gridpack_generation.sh Zprime_A0h_A0chichi_MZp500_MA0300 production/pre2017/13TeV/monoHiggs/Zp2HDM/Zprime_A0h_A0chichi/Zprime_A0h_A0chichi_MZp500_MA0500
-3) Producing the LHE files (interfaced with Pythia) +  RAW-SIM  → step0.py 
+
+**3) Producing the LHE files (interfaced with Pythia) +  RAW-SIM  → step0.py** 
 
 All the code is under: 
 https://github.com/calderona/Mono-H/tree/master/MonoH_2017
@@ -47,7 +48,7 @@ cmsRun step0.py
 
 
 
-Gridpacks from Alicia 
+**Gridpacks from Alicia** 
 
 /afs/cern.ch/work/c/calderon/public/MonoH-2017/
 
