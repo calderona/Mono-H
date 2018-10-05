@@ -50,6 +50,24 @@ Run the code as:
     cmsRun step0.py 
 
 
+**4) Producing the premix + GEN-SIM  → step1.py** 
+
+You need to change the input file to the one from previous step. 
+
+Run the code as:
+     
+    cmsRun step1.py 
+
+**5) Producing  AOD → step2.py** 
+
+You need to change the input file to the one from previous step. 
+
+Run the code as:
+        
+    cmsRun step1.py 
+
+
+
 **Gridpacks from Alicia** 
 
     /afs/cern.ch/work/c/calderon/public/MonoH-2017/
