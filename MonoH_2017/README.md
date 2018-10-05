@@ -10,25 +10,27 @@ https://twiki.cern.ch/twiki/bin/view/CMS/QuickGuideMadGraph5aMCatNLO
  For 2017 MC production need to update the PDF to NNPDF3.1 NNLO 
 
 On the cards just change the pdf to:
- lhapdf = pdlabel ! PDF set
+
+     lhapdf = pdlabel ! PDF set
      $DEFAULT_PDF_SETS = lhaid
      $DEFAULT_PDF_MEMBERS  = reweight_PDF
 
 On a lxplus machine (not in a release area), you can do the following: 
  
-git clone git@github.com:cms-sw/genproductions.git genproductions
-(if you need to use mg 2.6.x then do the following:
-git clone git@github.com:cms-sw/genproductions.git genproductions -b mg26x)
+    git clone git@github.com:cms-sw/genproductions.git genproductions (if you need to use mg 2.6.x then do the following:
 
-
-cd genproductions/bin/MadGraph5_aMCatNLO/
+    git clone git@github.com:cms-sw/genproductions.git genproductions -b mg26x)
+    
+    cd genproductions/bin/MadGraph5_aMCatNLO/
 
 Run the code as: 
 
-./gridpack_generation.sh <name of process card without _proc_card.dat> <folder containing cards relative to current location>
+    ./gridpack_generation.sh <name of process card without _proc_card.dat> <folder containing cards relative to current location>
 
 Examples: 
-./gridpack_generation.sh Zprime_A0h_A0chichi_MZp500_MA0300 production/pre2017/13TeV/monoHiggs/Zp2HDM/Zprime_A0h_A0chichi/Zprime_A0h_A0chichi_MZp500_MA0500
+    
+    ./gridpack_generation.sh Zprime_A0h_A0chichi_MZp500_MA0300 production/pre2017/13TeV/monoHiggs/Zp2HDM/Zprime_A0h_A0chichi/Zprime_A0h_A0chichi_MZp500_MA0500
+
 
 **3) Producing the LHE files (interfaced with Pythia) +  RAW-SIM  → step0.py** 
 
@@ -43,9 +45,9 @@ Important change the gidpacks:
 https://github.com/calderona/Mono-H/blob/master/MonoH_2017/step0.py#L122
 
 
-Run the code as:
-cmsRun step0.py 
-
+Run the code as: 
+      
+    cmsRun step0.py 
 
 
 **Gridpacks from Alicia** 
