@@ -34,6 +34,8 @@ Examples:
 
 **3) Producing the LHE files (interfaced with Pythia) +  RAW-SIM  → step0.py** 
 
+**DISCLAIMER: For production better use the step 3.5)** 
+
 All the code is under: 
 https://github.com/calderona/Mono-H/tree/master/MonoH_2017
 
@@ -41,7 +43,7 @@ https://github.com/calderona/Mono-H/tree/master/MonoH_2017
 Pythia sequence under: 
 https://github.com/calderona/Mono-H/blob/master/MonoH_2017/step0.py#L89
 
-Important change the gidpacks: 
+Important change the gridpacks: 
 https://github.com/calderona/Mono-H/blob/master/MonoH_2017/step0.py#L122
 
 
@@ -49,6 +51,13 @@ Run the code as:
       
     cmsRun step0.py 
 
+
+**3) Producing the GEN-SIM  → step0_LHE.py** 
+
+From an external LHE file. 
+
+Just run the step0_LHE.py step. For running through crab use crab_step0.py and follow the next
+steps as always. 
 
 **4) Producing the premix + GEN-SIM  → step1.py** 
 
