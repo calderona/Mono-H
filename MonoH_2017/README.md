@@ -52,7 +52,7 @@ Run the code as:
     cmsRun step0.py 
 
 
-**3) Producing the GEN-SIM  → step0_LHE.py** 
+**3.5) Producing the GEN-SIM  → step0_LHE.py** 
 
 From an external LHE file. 
 
