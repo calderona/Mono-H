@@ -44,16 +44,31 @@ process.configurationMetadata = cms.untracked.PSet(
 
 # Output definition
 
-process.NANOEDMAODSIMoutput = cms.OutputModule("PoolOutputModule",
-    #compressionAlgorithm = cms.untracked.string('LZMA'),
-    #compressionLevel = cms.untracked.int32(9),
-    #dataset = cms.untracked.PSet(
-    #    dataTier = cms.untracked.string('NANOAODSIM'),
-    #    filterName = cms.untracked.string('')
-                                               #),
-    fileName = cms.untracked.string('file:EXO-RunIIFall17NanoAODv4-01742.root'),
+#process.NANOEDMAODSIMoutput = cms.OutputModule("PoolOutputModule",
+#    compressionAlgorithm = cms.untracked.string('LZMA'),
+#    compressionLevel = cms.untracked.int32(9),
+#    dataset = cms.untracked.PSet(
+#        dataTier = cms.untracked.string('NANOAODSIM'),
+#        filterName = cms.untracked.string('')
+#    ),
+#    fileName = cms.untracked.string('file:EXO-RunIIFall17NanoAODv4-01742.root'),
+#    fakeNameForCrab =cms.untracked.bool(True),
+#    outputCommands = process.NANOAODSIMEventContent.outputCommands
+#)
+
+
+process.NANOAODSIMoutput = cms.OutputModule("NanoAODOutputModule",
+    compressionAlgorithm = cms.untracked.string('LZMA'),
+    compressionLevel = cms.untracked.int32(9),
+    dataset = cms.untracked.PSet(
+        dataTier = cms.untracked.string('NANOAODSIM'),
+        filterName = cms.untracked.string('')
+    ),
+    fileName = cms.untracked.string('myNanoProcMc_NANO.root'),
+    fakeNameForCrab =cms.untracked.bool(True), #TO BE ABLE TO PUBLISH ON DAS!!!
     outputCommands = process.NANOAODSIMEventContent.outputCommands
 )
+
 
 # Additional output definition
 
@@ -64,8 +79,8 @@ process.GlobalTag = GlobalTag(process.GlobalTag, '102X_mc2017_realistic_v6', '')
 # Path and EndPath definitions
 process.nanoAOD_step = cms.Path(process.nanoSequenceMC)
 process.endjob_step = cms.EndPath(process.endOfProcess)
-process.NANOEDMAODSIMoutput_step = cms.EndPath(process.NANOEDMAODSIMoutput)
-
+process.NANOEDMAODSIMoutput_step = cms.EndPath(process.NANOAODSIMoutput)
+                                               
 # Schedule definition
 process.schedule = cms.Schedule(process.nanoAOD_step,process.endjob_step,process.NANOEDMAODSIMoutput_step)
 from PhysicsTools.PatAlgos.tools.helpers import associatePatAlgosToolsTask
