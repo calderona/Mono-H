@@ -1,8 +1,8 @@
-#Auto generated configuration file
+# Auto generated configuration file
 # using: 
 # Revision: 1.19 
 # Source: /local/reps/CMSSW/CMSSW/Configuration/Applications/python/ConfigBuilder.py,v 
-# with command line options: step1 --filein dbs:/MC17_CITo2E_M300to800_CP5_Lam16TeVConLRPythia8_v1/RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/MINIAODSIM --fileout file:EXO-RunIIFall17NanoAODv4-01742.root --mc --eventcontent NANOEDMAODSIM --datatier NANOAODSIM --processName 14Dec2018 --conditions 102X_mc2017_realistic_v6 --customise_commands process.particleLevelSequence.remove(process.genParticles2HepMCHiggsVtx);process.particleLevelSequence.remove(process.rivetProducerHTXS);process.particleLevelTables.remove(process.HTXSCategoryTable) --step NANO --nThreads 2 --era Run2_2017,run2_nanoAOD_94XMiniAODv2 --python_filename /afs/cern.ch/cms/PPD/PdmV/work/McM/submit/EXO-RunIIFall17NanoAODv4-01742/EXO-RunIIFall17NanoAODv4-01742_1_cfg.py --no_exec --customise Configuration/DataProcessing/Utils.addMonitoring -n 10000
+# with command line options: myNanoProcMc --eventcontent NANOAODSIM --datatier NANOAODSIM --processName 14Dec2018 --conditions 102X_mc2017_realistic_v6 -s NANO --era Run2_2017,run2_nanoAOD_94XMiniAODv2 --no_exec --customise_commands=process.add_(cms.Service('InitRootHandlers', EnableIMT = cms.untracked.bool(False)))
 import FWCore.ParameterSet.Config as cms
 
 from Configuration.StandardSequences.Eras import eras
@@ -22,12 +22,12 @@ process.load('Configuration.StandardSequences.EndOfProcess_cff')
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(100)
+    input = cms.untracked.int32(10)
 )
 
 # Input source
 process.source = cms.Source("PoolSource",
-                            fileNames = cms.untracked.vstring('file:/eos/cms/store/group/phys_higgs/cmshww/calderon/monoH-2017/CRAB_PrivateMC/darkHiggs_theta_0p01_gq_0p25_gx_1p0_mhs_160_mx_200_mZp_500_WW_step3/190610_073358/0000/SMP-RunIIFall17MiniAODv2-00071_4.root'),
+    fileNames = cms.untracked.vstring('file:/eos/cms/store/group/phys_higgs/cmshww/calderon/monoH-2017/CRAB_PrivateMC/darkHiggs_theta_0p01_gq_0p25_gx_1p0_mhs_160_mx_200_mZp_500_WW_step3/190610_073358/0000/SMP-RunIIFall17MiniAODv2-00071_41.root'),
     secondaryFileNames = cms.untracked.vstring()
 )
 
@@ -37,25 +37,12 @@ process.options = cms.untracked.PSet(
 
 # Production Info
 process.configurationMetadata = cms.untracked.PSet(
-    annotation = cms.untracked.string('step1 nevts:10000'),
+    annotation = cms.untracked.string('myNanoProcMc nevts:1'),
     name = cms.untracked.string('Applications'),
     version = cms.untracked.string('$Revision: 1.19 $')
 )
 
 # Output definition
-
-#process.NANOEDMAODSIMoutput = cms.OutputModule("PoolOutputModule",
-#    compressionAlgorithm = cms.untracked.string('LZMA'),
-#    compressionLevel = cms.untracked.int32(9),
-#    dataset = cms.untracked.PSet(
-#        dataTier = cms.untracked.string('NANOAODSIM'),
-#        filterName = cms.untracked.string('')
-#    ),
-#    fileName = cms.untracked.string('file:EXO-RunIIFall17NanoAODv4-01742.root'),
-#    fakeNameForCrab =cms.untracked.bool(True),
-#    outputCommands = process.NANOAODSIMEventContent.outputCommands
-#)
-
 
 process.NANOAODSIMoutput = cms.OutputModule("NanoAODOutputModule",
     compressionAlgorithm = cms.untracked.string('LZMA'),
@@ -69,7 +56,6 @@ process.NANOAODSIMoutput = cms.OutputModule("NanoAODOutputModule",
     outputCommands = process.NANOAODSIMEventContent.outputCommands
 )
 
-
 # Additional output definition
 
 # Other statements
@@ -79,16 +65,12 @@ process.GlobalTag = GlobalTag(process.GlobalTag, '102X_mc2017_realistic_v6', '')
 # Path and EndPath definitions
 process.nanoAOD_step = cms.Path(process.nanoSequenceMC)
 process.endjob_step = cms.EndPath(process.endOfProcess)
-process.NANOEDMAODSIMoutput_step = cms.EndPath(process.NANOAODSIMoutput)
-                                               
+process.NANOAODSIMoutput_step = cms.EndPath(process.NANOAODSIMoutput)
+
 # Schedule definition
-process.schedule = cms.Schedule(process.nanoAOD_step,process.endjob_step,process.NANOEDMAODSIMoutput_step)
+process.schedule = cms.Schedule(process.nanoAOD_step,process.endjob_step,process.NANOAODSIMoutput_step)
 from PhysicsTools.PatAlgos.tools.helpers import associatePatAlgosToolsTask
 associatePatAlgosToolsTask(process)
-
-#Setup FWK for multithreaded
-process.options.numberOfThreads=cms.untracked.uint32(2)
-process.options.numberOfStreams=cms.untracked.uint32(0)
 
 # customisation of the process.
 
@@ -98,17 +80,15 @@ from PhysicsTools.NanoAOD.nano_cff import nanoAOD_customizeMC
 #call to customisation function nanoAOD_customizeMC imported from PhysicsTools.NanoAOD.nano_cff
 process = nanoAOD_customizeMC(process)
 
-# Automatic addition of the customisation function from Configuration.DataProcessing.Utils
-from Configuration.DataProcessing.Utils import addMonitoring 
-
-#call to customisation function addMonitoring imported from Configuration.DataProcessing.Utils
-process = addMonitoring(process)
-
 # End of customisation functions
 
 # Customisation from command line
 
-#process.particleLevelSequence.remove(process.genParticles2HepMCHiggsVtx);process.particleLevelSequence.remove(process.rivetProducerHTXS);process.particleLevelTables.remove(process.HTXSCategoryTable)
+process.particleLevelSequence.remove(process.genParticles2HepMCHiggsVtx);
+process.particleLevelSequence.remove(process.rivetProducerHTXS);
+process.particleLevelTables.remove(process.HTXSCategoryTable)
+process.add_(cms.Service('InitRootHandlers', EnableIMT = cms.untracked.bool(False)))
+
 # Add early deletion of temporary data products to reduce peak memory need
 from Configuration.StandardSequences.earlyDeleteSettings_cff import customiseEarlyDelete
 process = customiseEarlyDelete(process)
